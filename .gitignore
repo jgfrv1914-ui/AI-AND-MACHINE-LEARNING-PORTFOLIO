@@ -8,6 +8,10 @@
 #   */models/*.csv             métricas
 #   03_deteccion_fraude/data/muestra_demo.csv
 
+# Salidas de render y dependencias de Node (no son parte del portafolio)
+output/
+node_modules/
+
 # Copias de seguridad de assets
 assets/_backup/
 
