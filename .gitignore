@@ -1,0 +1,23 @@
+# Datasets completos: se descargan solos con train_model.py
+01_prediccion_viviendas/data/california_housing.csv
+03_deteccion_fraude/data/transactions.csv
+03_deteccion_fraude/data/creditcardfraud.zip
+
+# NO se ignoran (los necesitan las demos desplegadas):
+#   */models/*.joblib          modelos entrenados
+#   */models/*.csv             métricas
+#   03_deteccion_fraude/data/muestra_demo.csv
+
+# Copias de seguridad de assets
+assets/_backup/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Sistema
+.DS_Store
+Thumbs.db
