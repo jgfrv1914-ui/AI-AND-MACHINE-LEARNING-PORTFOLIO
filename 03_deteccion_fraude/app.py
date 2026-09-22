@@ -13,6 +13,9 @@ METRICS_PATH = ROOT / "models" / "metrics.csv"
 DATA_PATH = ROOT / "data" / "transactions.csv"
 MUESTRA_PATH = ROOT / "data" / "muestra_demo.csv"
 
+# Claves que el artefacto debe traer; si falta alguna, se reentrena.
+CLAVES = {"pipeline", "features", "pca_features", "model_name", "threshold", "test_precision", "test_recall", "test_f1", "test_pr_auc"}
+
 st.set_page_config(page_title="FraudShield AI", page_icon="🛡️", layout="wide")
 st.markdown(
     """
@@ -27,11 +30,27 @@ st.markdown(
 
 @st.cache_resource
 def load_model():
-    if not MODEL_PATH.exists():
+    """Carga el modelo y lo reentrena si falta o si quedó desactualizado.
+
+    La comprobación de claves evita un fallo sutil: si el artefacto en disco
+    viene de una versión anterior del entrenamiento, el código nuevo reventaría
+    con un KeyError. Aquí se detecta y se regenera.
+    """
+    def _valido(ruta):
+        if not ruta.exists():
+            return None
+        artefacto = joblib.load(ruta)
+        if not CLAVES.issubset(artefacto):
+            return None
+        return artefacto
+
+    artefacto = _valido(MODEL_PATH)
+    if artefacto is None:
         from train_model import main
 
         main()
-    return joblib.load(MODEL_PATH)
+        artefacto = joblib.load(MODEL_PATH)
+    return artefacto
 
 
 @st.cache_data

@@ -21,6 +21,9 @@ ETIQUETAS = {
     "Longitude": "Longitud",
 }
 
+# Claves que el artefacto debe traer; si falta alguna, se reentrena.
+CLAVES = {"pipeline", "features", "target", "model_name", "test_r2", "test_mae", "cv_r2_mean", "cv_r2_std"}
+
 st.set_page_config(page_title="HouseValue AI", page_icon="🏠", layout="wide")
 st.markdown(
     """
@@ -35,11 +38,27 @@ st.markdown(
 
 @st.cache_resource
 def load_model():
-    if not MODEL_PATH.exists():
+    """Carga el modelo y lo reentrena si falta o si quedó desactualizado.
+
+    La comprobación de claves evita un fallo sutil: si el artefacto en disco
+    viene de una versión anterior del entrenamiento, el código nuevo reventaría
+    con un KeyError. Aquí se detecta y se regenera.
+    """
+    def _valido(ruta):
+        if not ruta.exists():
+            return None
+        artefacto = joblib.load(ruta)
+        if not CLAVES.issubset(artefacto):
+            return None
+        return artefacto
+
+    artefacto = _valido(MODEL_PATH)
+    if artefacto is None:
         from train_model import main
 
         main()
-    return joblib.load(MODEL_PATH)
+        artefacto = joblib.load(MODEL_PATH)
+    return artefacto
 
 
 @st.cache_data
