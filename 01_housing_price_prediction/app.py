@@ -68,6 +68,16 @@ def load_model():
 
 @st.cache_data
 def load_data():
+    """Read the cached CSV, downloading the dataset if it is not there.
+
+    The CSV is not versioned, so on a fresh deployment it does not exist.
+    `load_dataset` fetches it from scikit-learn and writes the cache, which
+    keeps the app working without a manual training run first.
+    """
+    if not DATA_PATH.exists():
+        from train_model import load_dataset
+
+        return load_dataset()
     return pd.read_csv(DATA_PATH)
 
 
