@@ -1,14 +1,22 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Portafolio de Fernando Tafurt Pinto: proyectos de Inteligencia Artificial y Machine Learning con métricas verificables y código reproducible." />
+    <meta name="description" content="Fernando Tafurt Pinto's portfolio: Artificial Intelligence and Machine Learning projects with verifiable metrics and reproducible code." />
     <title>Fernando Tafurt Pinto | AI & Machine Learning</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+        }
+      }
+    </script>
   </head>
   <body>
     <div class="noise" aria-hidden="true"></div>
@@ -21,22 +29,23 @@
     <div class="ambient-grid" aria-hidden="true"></div>
 
     <header class="site-header">
-      <a class="brand" href="#inicio" aria-label="Fernando Tafurt Pinto, inicio">
+      <a class="brand" href="#inicio" aria-label="Fernando Tafurt Pinto, home">
         <span class="brand-mark">FT</span>
         <span>Fernando Tafurt Pinto</span>
       </a>
-      <nav class="nav" aria-label="Navegación principal">
-        <a href="#proyectos">Proyectos</a>
-        <a href="#metodologia">Metodología</a>
-        <a href="#sobre-mi">Sobre mí</a>
-        <div class="language-switcher" role="group" aria-label="Selector de idioma">
+      <nav class="nav" aria-label="Main navigation">
+        <a href="#proyectos">Projects</a>
+        <a href="#metodologia">Methodology</a>
+        <a href="#certificaciones">Certifications</a>
+        <a href="#sobre-mi">About me</a>
+        <div class="language-switcher" role="group" aria-label="Language selector">
           <button class="language-button active" type="button" data-language="es" aria-pressed="true">ES</button>
           <span aria-hidden="true">/</span>
           <button class="language-button" type="button" data-language="en" aria-pressed="false">EN</button>
         </div>
-        <a class="nav-cta" href="#contacto">Hablemos <span aria-hidden="true">↗</span></a>
+        <a class="nav-cta" href="#contacto">Let’s talk <span aria-hidden="true">↗</span></a>
       </nav>
-      <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false">
+      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false">
         <span></span><span></span>
       </button>
     </header>
@@ -44,48 +53,52 @@
     <main id="inicio">
       <section class="hero section-shell" data-section="hero">
         <div class="hero-copy reveal">
-          <p class="eyebrow"><span class="status-dot"></span> Disponible para proyectos de IA</p>
-          <h1>Convierto datos<br /><em>en decisiones.</em></h1>
-          <p class="hero-lede">Soy <strong>Fernando Tafurt Pinto</strong>, especialista en formación en Inteligencia Artificial y Machine Learning. Construyo modelos que resuelven problemas reales y publico sus métricas sin maquillar.</p>
+          <p class="eyebrow"><span class="status-dot"></span> Available for AI projects</p>
+          <h1>I turn data<br /><em>into decisions.</em></h1>
+          <p class="hero-lede">I’m <strong>Fernando Tafurt Pinto</strong>, an AI and Machine Learning professional in training. I build models that solve real problems and I publish their metrics unpolished.</p>
           <div class="hero-actions">
-            <a class="button button-primary" href="#proyectos">Ver mis proyectos <span aria-hidden="true">↓</span></a>
-            <a class="button button-ghost" href="#contacto">Conocerme mejor <span aria-hidden="true">↗</span></a>
+            <a class="button button-primary" href="#proyectos">View my projects <span aria-hidden="true">↓</span></a>
+            <a class="button button-ghost" href="#contacto">Get to know me <span aria-hidden="true">↗</span></a>
           </div>
           <div class="hero-meta">
-            <div><span class="meta-number">03</span><span>proyectos<br />publicados</span></div>
-            <div><span class="meta-number">09</span><span>modelos<br />comparados</span></div>
-            <div><span class="meta-number">∞</span><span>curiosidad<br />por aprender</span></div>
+            <div><span class="meta-number">03</span><span>published<br />projects</span></div>
+            <div><span class="meta-number">09</span><span>models<br />compared</span></div>
+            <div><span class="meta-number">∞</span><span>curiosity<br />to learn</span></div>
           </div>
+        </div>
+
+        <div class="hero-robot reveal" id="hero-robot" role="img" aria-label="3D avatar of a robot waving its hand">
+          <span class="hero-robot-tag">waving<span class="cursor">_</span></span>
         </div>
       </section>
 
-      <section class="ticker" aria-label="Áreas de especialidad">
+      <section class="ticker" aria-label="Areas of expertise">
         <div class="ticker-inner"><span>PYTHON</span><i>✦</i><span>MACHINE LEARNING</span><i>✦</i><span>NLP</span><i>✦</i><span>XGBOOST</span><i>✦</i><span>SHAP</span><i>✦</i><span>STREAMLIT</span></div>
       </section>
 
       <section id="proyectos" class="section-shell content-section" data-section="projects">
         <div class="section-heading reveal">
           <div>
-            <p class="eyebrow">01 / Proyectos seleccionados</p>
-            <h2>Problemas reales.<br /><em>Métricas honestas.</em></h2>
+            <p class="eyebrow">01 / Selected projects</p>
+            <h2>Real problems.<br /><em>Honest metrics.</em></h2>
           </div>
-          <p class="section-note">Tres familias distintas de problema: regresión tabular, clasificación de texto y clasificación con clases desbalanceadas. Cada uno con su código, sus métricas y sus limitaciones documentadas.</p>
+          <p class="section-note">Three different families of problem: tabular regression, text classification and classification with imbalanced classes. Each one with its code, its metrics and its limitations documented.</p>
         </div>
         <div class="projects-grid">
 
-          <article class="project-card project-violet reveal" data-project="viviendas">
-            <div class="project-top"><span class="project-index">01</span><span class="project-label">REGRESIÓN · XGBOOST</span></div>
+          <article class="project-card project-violet reveal" data-project="housing">
+            <div class="project-top"><span class="project-index">01</span><span class="project-label">REGRESSION · XGBOOST</span></div>
             <div class="project-art housing-art">
               <div class="house-line"><span></span><span></span><span></span></div>
               <div class="art-value">0.850</div>
-              <div class="art-caption">California Housing · R² en test</div>
+              <div class="art-caption">California Housing · test R²</div>
             </div>
             <div class="project-body">
-              <h3>Predicción de precios de vivienda</h3>
-              <p>Regresión sobre 20.640 distritos censales de California. Comparación de tres modelos y demo interactiva.</p>
+              <h3>Housing price prediction</h3>
+              <p>Regression over 20,640 California census districts. Three models compared plus an interactive demo.</p>
               <ul class="metric-list">
                 <li><b>R² test</b><span>0.850</span></li>
-                <li><b>R² val. cruzada</b><span>0.847 ± 0.007</span></li>
+                <li><b>R² cross-val</b><span>0.847 ± 0.007</span></li>
                 <li><b>MAE</b><span>≈ $29.600</span></li>
               </ul>
               <div class="tag-row"><span>Python</span><span>Scikit-learn</span><span>XGBoost</span></div>
@@ -93,39 +106,39 @@
             </div>
           </article>
 
-          <article class="project-card project-indigo reveal" data-project="texto">
+          <article class="project-card project-indigo reveal" data-project="text">
             <div class="project-top"><span class="project-index">02</span><span class="project-label">NLP · TF-IDF + SVM</span></div>
             <div class="project-art text-art">
               <div class="doc-lines"><i></i><i></i><i></i><i></i><i></i></div>
               <div class="topic-chips"><span>hockey</span><span>space</span><span>crypt</span></div>
               <div class="art-value">0.706</div>
-              <div class="art-caption">20 Newsgroups · F1 macro (20 clases)</div>
+              <div class="art-caption">20 Newsgroups · macro F1 (20 classes)</div>
             </div>
             <div class="project-body">
-              <h3>Clasificador de texto por tema</h3>
-              <p>Clasificación de mensajes en 20 categorías. Explica qué términos concretos empujaron cada decisión.</p>
+              <h3>Topic classifier for text</h3>
+              <p>Message classification across 20 categories. It shows which specific terms drove each decision.</p>
               <ul class="metric-list">
-                <li><b>F1 macro</b><span>0.706</span></li>
-                <li><b>Exactitud</b><span>0.719</span></li>
-                <li><b>Azar</b><span>0.050</span></li>
+                <li><b>Macro F1</b><span>0.706</span></li>
+                <li><b>Accuracy</b><span>0.719</span></li>
+                <li><b>Chance</b><span>0.050</span></li>
               </ul>
               <div class="tag-row"><span>NLP</span><span>TF-IDF</span><span>SVM</span></div>
               <div class="project-links"></div>
             </div>
           </article>
 
-          <article class="project-card project-cyan reveal" data-project="fraude">
-            <div class="project-top"><span class="project-index">03</span><span class="project-label">CLASIFICACIÓN · SHAP</span></div>
+          <article class="project-card project-cyan reveal" data-project="fraud">
+            <div class="project-top"><span class="project-index">03</span><span class="project-label">CLASSIFICATION · SHAP</span></div>
             <div class="project-art fraud-art">
               <div class="radar"><span></span><i></i></div>
-              <div class="fraud-stat"><strong>0.931</strong><small>precisión en test</small></div>
-              <div class="art-caption">Credit Card Fraud · 0,17 % positivos</div>
+              <div class="fraud-stat"><strong>0.931</strong><small>test precision</small></div>
+              <div class="art-caption">Credit Card Fraud · 0.17 % positives</div>
             </div>
             <div class="project-body">
-              <h3>Detección de fraude</h3>
-              <p>Clases muy desbalanceadas sobre 284.807 transacciones reales. Umbral elegido en validación y explicación con SHAP.</p>
+              <h3>Fraud detection</h3>
+              <p>Heavily imbalanced classes over 284,807 real transactions. Threshold picked on validation and explained with SHAP.</p>
               <ul class="metric-list">
-                <li><b>Precisión</b><span>0.931</span></li>
+                <li><b>Precision</b><span>0.931</span></li>
                 <li><b>Recall</b><span>0.818</span></li>
                 <li><b>PR-AUC</b><span>0.874</span></li>
               </ul>
@@ -140,54 +153,158 @@
       <section id="metodologia" class="section-shell content-section credentials-section" data-section="method">
         <div class="section-heading reveal">
           <div>
-            <p class="eyebrow">02 / Cómo trabajo</p>
-            <h2>Una métrica solo vale<br /><em>si es honesta.</em></h2>
+            <p class="eyebrow">02 / How I work</p>
+            <h2>A metric only counts<br /><em>if it is honest.</em></h2>
           </div>
-          <p class="section-note">Es fácil inflar un resultado sin darse cuenta. Estas son las tres reglas que sigo en los tres proyectos, y son la razón de que mis cifras sean más bajas de lo que podrían parecer.</p>
+          <p class="section-note">It is easy to inflate a result without noticing. These are the three rules I follow across all three projects, and the reason my numbers are lower than they could look.</p>
         </div>
         <div class="method-grid">
           <article class="method-card reveal">
             <span class="method-index">01</span>
-            <h3>El test se toca una sola vez</h3>
-            <p>Partición 60/20/20. El modelo, los hiperparámetros y el umbral se eligen mirando <b>validación</b>. El test se usa al final, con el ganador, y no interviene en ninguna decisión.</p>
+            <h3>The test set is touched once</h3>
+            <p>A 60/20/20 split. Model, hyperparameters and threshold are all chosen by looking at <b>validation</b>. The test set is used at the end, with the winner, and takes part in no decision.</p>
           </article>
           <article class="method-card reveal">
             <span class="method-index">02</span>
-            <h3>Cada número con su desviación</h3>
-            <p>Una cifra suelta de una sola partición no dice nada. Publico validación cruzada con su desviación: <b>R² 0.847 ± 0.007</b> es más útil, y más honesto, que un 0.91 afortunado.</p>
+            <h3>Every number with its spread</h3>
+            <p>A single figure from a single split says nothing. I publish cross-validation with its standard deviation: <b>R² 0.847 ± 0.007</b> is more useful, and more honest, than a lucky 0.91.</p>
           </article>
           <article class="method-card reveal">
             <span class="method-index">03</span>
-            <h3>La métrica correcta para el problema</h3>
-            <p>Con un 0,17 % de fraude, ROC-AUC se ve bien casi siempre y engaña. Por eso el proyecto 03 se juzga con <b>PR-AUC</b>, y el 02 con <b>F1 macro</b> en lugar de exactitud.</p>
+            <h3>The right metric for the problem</h3>
+            <p>With 0.17% fraud, ROC-AUC looks good almost always and misleads. That is why project 03 is judged on <b>PR-AUC</b>, and project 02 on <b>macro F1</b> rather than accuracy.</p>
           </article>
         </div>
-        <div class="certificate-note reveal">
-          <span class="note-icon">+</span>
-          <p><strong>Formación y certificaciones</strong><br />Esta sección incorporará mis credenciales con su emisor, fecha y enlace de verificación.</p>
-          <a href="#contacto" class="text-link">Hablemos <span>↗</span></a>
+      </section>
+
+
+      <section id="certificaciones" class="section-shell content-section credentials-section" data-section="certs">
+        <div class="section-heading reveal">
+          <div>
+            <p class="eyebrow">03 / Certifications</p>
+            <h2>Training you<br /><em>can verify.</em></h2>
+          </div>
+          <p class="section-note">Eleven credentials from five issuers. Every one links to its official verification page, except the two that their issuers only hand over as a document, shown here in full.</p>
+        </div>
+
+        <div class="certs-grid">
+          <article class="cert-card featured reveal" data-cert="ml">
+            <header class="cert-head">
+              <span class="cert-logo">DL</span>
+              <div class="cert-title">
+                <p class="cert-issuer">DeepLearning.AI &middot; Stanford Online</p>
+                <h3>Machine Learning Specialization</h3>
+              </div>
+              <span class="cert-date">Mar 2025</span>
+            </header>
+            <p class="cert-lede">Andrew Ng’s specialization: the foundations the three projects in this portfolio rest on. Roughly 94 hours across the three courses.</p>
+            <ul class="cert-items">
+              <li>
+                <a class="cert-verify" href="https://www.coursera.org/account/accomplishments/verify/D9IQWKQOGDZR" target="_blank" rel="noopener noreferrer">Supervised Machine Learning: Regression and Classification <span aria-hidden="true">↗</span></a>
+                <b>33 h</b>
+              </li>
+              <li>
+                <a class="cert-verify" href="https://www.coursera.org/account/accomplishments/verify/CMLUFLY2A3R3" target="_blank" rel="noopener noreferrer">Advanced Learning Algorithms <span aria-hidden="true">↗</span></a>
+                <b>34 h</b>
+              </li>
+              <li>
+                <a class="cert-verify" href="https://www.coursera.org/account/accomplishments/verify/ZROT1TZH15LH" target="_blank" rel="noopener noreferrer">Unsupervised Learning, Recommenders, Reinforcement Learning <span aria-hidden="true">↗</span></a>
+                <b>27 h</b>
+              </li>
+            </ul>
+            <a class="cert-main-link" href="https://www.coursera.org/account/accomplishments/specialization/YH73UZPQXEMR" target="_blank" rel="noopener noreferrer">Verify the specialization <span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="cert-card reveal" data-cert="anthropic">
+            <header class="cert-head">
+              <span class="cert-logo cert-logo-anthropic">A</span>
+              <div class="cert-title">
+                <p class="cert-issuer">Anthropic Education</p>
+                <h3>Anthropic Academy</h3>
+              </div>
+              <span class="cert-date">May 2026</span>
+            </header>
+            <p class="cert-lede">Four courses on using and building with language models, from the fundamentals through to developing against the API.</p>
+            <ul class="cert-items">
+              <li><a class="cert-verify" href="https://verify.skilljar.com/c/zxdm83icezes" target="_blank" rel="noopener noreferrer">AI Fluency: Framework &amp; Foundations <span aria-hidden="true">↗</span></a></li>
+              <li><a class="cert-verify" href="https://verify.skilljar.com/c/tkkvmqke38tm" target="_blank" rel="noopener noreferrer">Claude Code 101 <span aria-hidden="true">↗</span></a></li>
+              <li><a class="cert-verify" href="https://verify.skilljar.com/c/wjjsqfz9dsmg" target="_blank" rel="noopener noreferrer">Claude Code in Action <span aria-hidden="true">↗</span></a></li>
+              <li><a class="cert-verify" href="https://verify.skilljar.com/c/5f8hoaykjw7s" target="_blank" rel="noopener noreferrer">Building with the Claude API <span aria-hidden="true">↗</span></a></li>
+            </ul>
+          </article>
+
+          <article class="cert-card reveal" data-cert="huawei">
+            <header class="cert-head">
+              <span class="cert-logo cert-logo-huawei">H</span>
+              <div class="cert-title">
+                <p class="cert-issuer">Huawei Talent Online</p>
+                <h3>HCIA-AI V3.5</h3>
+              </div>
+              <span class="cert-date">Dic 2024</span>
+            </header>
+            <p class="cert-lede">Huawei’s Artificial Intelligence certification course: machine learning and deep learning fundamentals with the MindSpore framework.</p>
+            <a class="cert-thumb" href="assets/cert-huawei-hcia-ai.jpg" target="_blank" rel="noopener noreferrer">
+              <img src="assets/cert-huawei-hcia-ai.jpg" width="565" height="800" loading="lazy" decoding="async"
+                   alt="HCIA-AI V3.5 Course certificate issued by Huawei Talent Online to Fernando Tafurt" />
+              <span>View the certificate <span aria-hidden="true">↗</span></span>
+            </a>
+          </article>
+
+          <article class="cert-card reveal" data-cert="talentotech">
+            <header class="cert-head">
+              <span class="cert-logo cert-logo-tt">TT</span>
+              <div class="cert-title">
+                <p class="cert-issuer">Talento Tech</p>
+                <h3>AI &middot; Intermediate Level</h3>
+              </div>
+              <span class="cert-date">May 2026</span>
+            </header>
+            <p class="cert-lede">A <b>159-hour</b> MinTIC bootcamp, delivered by the IU Training consortium: Universidad de Antioquia, Universidad de Caldas and Ubicua Technology.</p>
+            <a class="cert-thumb" href="assets/cert-talentotech-ai.jpg" target="_blank" rel="noopener noreferrer">
+              <img src="assets/cert-talentotech-ai.jpg" width="800" height="615" loading="lazy" decoding="async"
+                   alt="Certificate for the Artificial Intelligence Intermediate Level bootcamp issued by MinTIC and Talento Tech to Fernando Tafurt Pinto" />
+              <span>View the certificate <span aria-hidden="true">↗</span></span>
+            </a>
+          </article>
+
+          <article class="cert-card reveal" data-cert="aws">
+            <header class="cert-head">
+              <span class="cert-logo cert-logo-aws">aws</span>
+              <div class="cert-title">
+                <p class="cert-issuer">AWS Training and Certification</p>
+                <h3>Machine Learning Foundations</h3>
+              </div>
+              <span class="cert-date">Jun 2026</span>
+            </header>
+            <p class="cert-lede">AWS Educate badge: machine learning fundamentals and applying the full pipeline to a business problem, with a post-course assessment.</p>
+            <a class="cert-main-link" href="https://www.credly.com/badges/3d40953c-64bf-482a-aa14-526a18d055d3" target="_blank" rel="noopener noreferrer">Verify on Credly <span aria-hidden="true">↗</span></a>
+          </article>
         </div>
       </section>
 
       <section id="sobre-mi" class="section-shell about-section" data-section="about">
         <div class="about-portrait reveal">
-          <div class="portrait-initials">FT</div>
+          <img class="portrait-photo" src="assets/profile-fernando.jpg" width="400" height="400"
+               alt="Portrait of Fernando Tafurt Pinto" loading="lazy" decoding="async" />
           <span class="portrait-caption">FERNANDO<br />TAFURT PINTO</span>
         </div>
         <div class="about-copy reveal">
-          <p class="eyebrow">03 / Sobre mí</p>
-          <h2>La curiosidad es<br /><em>mi combustible.</em></h2>
-          <p>Me interesa entender cómo los datos pueden ayudarnos a tomar mejores decisiones. Mi trabajo combina fundamentos sólidos de Machine Learning, comunicación clara y el deseo de construir soluciones que generen impacto.</p>
-          <div class="skills-list"><span>01 · Python &amp; SQL</span><span>02 · Modelado predictivo</span><span>03 · NLP</span><span>04 · Visualización</span></div>
+          <p class="eyebrow">04 / About me</p>
+          <h2>Curiosity is<br /><em>my fuel.</em></h2>
+          <p>I’m interested in understanding how data can help us make better decisions. My work combines strong Machine Learning foundations, clear communication and a desire to build solutions that create impact.</p>
+          <div class="skills-list"><span>01 · Python &amp; SQL</span><span>02 · Predictive modelling</span><span>03 · NLP</span><span>04 · Data visualisation</span></div>
         </div>
       </section>
 
       <section id="contacto" class="contact-section section-shell reveal" data-section="contact">
         <div class="contact-inner">
-          <p class="eyebrow">04 / Contacto</p>
-          <h2>¿Construimos algo<br /><em>inteligente?</em></h2>
-          <p>Estoy abierto a colaboraciones, oportunidades y conversaciones sobre datos e Inteligencia Artificial.</p>
-          <a class="button button-primary" href="mailto:fernando.tafurt.pinto@gmail.com">Escríbeme un correo <span>↗</span></a>
+          <p class="eyebrow">05 / Contact</p>
+          <h2>Shall we build<br /><em>something smart?</em></h2>
+          <p>I’m open to collaborations, opportunities and conversations about data and Artificial Intelligence.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="mailto:fernando.tafurt.pinto@gmail.com">Send me an email <span aria-hidden="true">↗</span></a>
+            <a class="button button-ghost button-linkedin" href="https://www.linkedin.com/in/fernandotafurtag9a00/" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
+          </div>
         </div>
         <div class="contact-orbit" aria-hidden="true"><span>AI</span><span>ML</span><span>DATA</span></div>
       </section>
@@ -196,8 +313,10 @@
     <footer class="footer section-shell">
       <span>© 2026 Fernando Tafurt Pinto</span>
       <span>AI &amp; MACHINE LEARNING</span>
-      <a href="#inicio">Volver arriba ↑</a>
+      <a class="footer-linkedin" href="https://www.linkedin.com/in/fernandotafurtag9a00/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+      <a href="#inicio">Back to top ↑</a>
     </footer>
     <script src="script.js"></script>
+    <script type="module" src="robot3d.js"></script>
   </body>
 </html>

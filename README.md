@@ -1,26 +1,50 @@
-# Portafolio de Machine Learning e IA — Fernando Tafurt Pinto
+# AI & Machine Learning Portfolio — Fernando Tafurt Pinto
 
-Tres proyectos de Machine Learning reproducibles, cada uno con su entrenamiento, sus métricas y una interfaz interactiva en Streamlit.
+Three reproducible Machine Learning projects, each with its own training script, its metrics and an interactive Streamlit interface, plus the portfolio website that presents them.
 
-| # | Proyecto | Tipo de problema | Métrica principal |
+**Live site:** https://jgfrv1914-ui.github.io/AI-AND-MACHINE-LEARNING-PORTFOLIO/
+
+| # | Project | Problem type | Headline metric |
 |---|---|---|---|
-| 01 | [Predicción de precios de vivienda](./01_prediccion_viviendas) | Regresión tabular | R² **0.850** (test) · 0.847 ± 0.007 (CV) |
-| 02 | [Clasificador de texto por tema](./02_clasificador_texto) | NLP · 20 clases | F1 macro **0.706** (azar: 0.05) |
-| 03 | [Detección de fraude](./03_deteccion_fraude) | Clasificación desbalanceada | PR-AUC **0.874** · precisión 0.931 |
+| 01 | [Housing price prediction](./01_housing_price_prediction) | Tabular regression | R² **0.850** (test) · 0.847 ± 0.007 (CV) |
+| 02 | [Topic text classifier](./02_text_classification) | NLP · 20 classes | Macro F1 **0.706** (chance: 0.05) |
+| 03 | [Fraud detection](./03_fraud_detection) | Imbalanced classification | PR-AUC **0.874** · precision 0.931 |
 
-## Metodología común
+## Shared methodology
 
-Los tres proyectos siguen las mismas tres reglas, y son la razón de que las cifras sean más bajas de lo que podrían parecer:
+All three projects follow the same three rules, and those rules are the reason the figures are lower than they might otherwise look:
 
-**1. El conjunto de test se usa una sola vez.** Partición 60/20/20. El modelo, los hiperparámetros y el umbral de decisión se eligen mirando **validación**. El test se reserva para la medición final del ganador y no interviene en ninguna decisión. Elegir mirando el test es la forma más común de publicar un número inflado sin darse cuenta.
+**1. The test set is used once.** A 60/20/20 split. The model, the hyperparameters and the decision threshold are all chosen by looking at **validation**. The test set is reserved for the final measurement of the winner and takes part in no decision. Choosing while looking at the test set is the most common way to publish an inflated number without noticing.
 
-**2. Cada número va con su desviación.** Una cifra de una sola partición no dice nada sobre estabilidad. Donde tiene sentido se reporta validación cruzada con su desviación típica.
+**2. Every number comes with its spread.** A figure from a single split says nothing about stability. Where it makes sense, cross-validation is reported together with its standard deviation.
 
-**3. La métrica se elige según el problema.** Con un 0,17 % de positivos, ROC-AUC se ve bien casi siempre y engaña: el proyecto 03 se juzga con PR-AUC. Con 20 clases desbalanceadas, la exactitud premia a las clases grandes: el proyecto 02 se juzga con F1 macro.
+**3. The metric is chosen to fit the problem.** With 0.17 % positives, ROC-AUC looks good almost always and misleads: project 03 is judged on PR-AUC. With 20 imbalanced classes, accuracy rewards the large ones: project 02 is judged on macro F1.
 
-Cada proyecto documenta además sus **limitaciones** en su propio README.
+Each project additionally documents its **limitations** in its own README.
 
-## Instalación
+## Repository structure
+
+```
+.
+├── index.html                      Portfolio website (GitHub Pages entry point)
+├── styles.css                      Website styles
+├── script.js                       Interactions, ES/EN i18n and project config
+├── robot3d.js                      Three.js animated 3D robot avatar in the hero
+├── assets/                         Images, certificates and background video
+├── requirements.txt                Python dependencies for the three projects
+│
+├── 01_housing_price_prediction/
+│   ├── train_model.py              Training, model selection and metrics
+│   ├── app.py                      Streamlit demo
+│   ├── data/                       Dataset (downloaded on first run, not versioned)
+│   ├── models/                     Trained model + metrics.csv
+│   └── README.md
+│
+├── 02_text_classification/         Same layout
+└── 03_fraud_detection/             Same layout
+```
+
+## Installation
 
 ```bash
 python -m venv .venv
@@ -29,44 +53,54 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-## Ejecutar
+## Running
 
 ```bash
-# Entrenar (descarga los datos la primera vez)
-python 01_prediccion_viviendas/train_model.py
-python 02_clasificador_texto/train_model.py
-python 03_deteccion_fraude/train_model.py
+# Train (downloads the data on first run)
+python 01_housing_price_prediction/train_model.py
+python 02_text_classification/train_model.py
+python 03_fraud_detection/train_model.py
 
-# Abrir cualquier demo
-streamlit run 01_prediccion_viviendas/app.py
-streamlit run 02_clasificador_texto/app.py
-streamlit run 03_deteccion_fraude/app.py
+# Open any demo
+streamlit run 01_housing_price_prediction/app.py
+streamlit run 02_text_classification/app.py
+streamlit run 03_fraud_detection/app.py
 ```
 
-Los modelos entrenados están versionados, así que las demos funcionan sin entrenar nada.
+The trained models are versioned, so the demos run without training anything first.
 
-## Datos
+## Data
 
-| Proyecto | Fuente | Descarga |
+| Project | Source | Download |
 |---|---|---|
-| 01 | California Housing (censo EE. UU. 1990) | automática, vía scikit-learn |
-| 02 | 20 Newsgroups | automática, vía scikit-learn |
-| 03 | Credit Card Fraud Detection (ULB) | automática, desde Kaggle (144 MB) |
+| 01 | California Housing (1990 US census) | automatic, via scikit-learn |
+| 02 | 20 Newsgroups | automatic, via scikit-learn |
+| 03 | Credit Card Fraud Detection (ULB) | automatic, from Kaggle (144 MB) |
 
-El dataset de fraude no se versiona por tamaño. El repositorio incluye una **muestra** (`muestra_demo.csv`: los 492 fraudes + 12.000 transacciones legítimas) para que la demo funcione desplegada.
+The fraud dataset is not versioned because of its size. The repository includes a **sample** (`demo_sample.csv`: all 492 frauds + 12,000 legitimate transactions) so the demo works when deployed.
 
-## Web del portafolio
+## The website
 
-`index.html` es la página del portafolio. Antes de publicarla, edita el bloque `CONFIG` al inicio de `script.js`:
+`index.html` is the portfolio page, served by GitHub Pages from the repository root. It is bilingual (English / Spanish) via the switch in the header, and the hero shows a 3D robot avatar built procedurally with Three.js — no external model file.
+
+To point a project card at a deployed demo, edit the `CONFIG` block at the top of `script.js`:
 
 ```js
 const CONFIG = {
-  github: "https://github.com/TU-USUARIO/portafolio-ia-ml",   // ← tu usuario
-  proyectos: {
-    viviendas: { carpeta: "01_prediccion_viviendas", demo: "" },  // ← URL al desplegar
+  github: "https://github.com/jgfrv1914-ui/AI-AND-MACHINE-LEARNING-PORTFOLIO",
+  projects: {
+    housing: { folder: "01_housing_price_prediction", demo: "" },  // ← URL once deployed
     ...
   },
 };
 ```
 
-Mientras una demo no tenga URL, la tarjeta muestra «Ejecutar en local» y enlaza al README en lugar de a un enlace roto.
+While a demo has no URL, its card shows “Run locally” and links to the project README instead of a broken link.
+
+## Author
+
+**Fernando Tafurt Pinto** — [LinkedIn](https://www.linkedin.com/in/fernandotafurtag9a00/)
+
+## License
+
+[MIT](./LICENSE)

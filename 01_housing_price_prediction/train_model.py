@@ -1,11 +1,11 @@
-"""Regresion sobre California Housing.
+"""Regression on the California Housing dataset.
 
-Metodologia (identica en los tres proyectos del portafolio):
-  - Particion 60/20/20: se entrena en train, se ELIGE el modelo en validacion
-    y solo el ganador se mide una vez sobre test. El test no participa en
-    ninguna decision, asi que la metrica publicada no esta inflada.
-  - Ademas se reporta R2 con validacion cruzada 5-fold sobre train+val, para
-    acompanar cada numero de su desviacion en lugar de dar una cifra suelta.
+Methodology (identical across the three portfolio projects):
+  - 60/20/20 split: models are fit on train, the winner is CHOSEN on
+    validation, and only that winner is measured once on test. The test set
+    takes part in no decision, so the published metric is not inflated.
+  - R2 is also reported with 5-fold cross-validation over train+val, so every
+    number comes with its standard deviation instead of a single lucky figure.
 """
 
 from pathlib import Path
@@ -28,21 +28,21 @@ DATA_DIR.mkdir(exist_ok=True)
 MODEL_DIR.mkdir(exist_ok=True)
 
 FEATURES = [
-    "MedInc",      # ingreso mediano del bloque (decenas de miles de USD)
-    "HouseAge",    # antiguedad mediana de las viviendas
-    "AveRooms",    # habitaciones por vivienda
-    "AveBedrms",   # dormitorios por vivienda
-    "Population",  # poblacion del bloque
-    "AveOccup",    # ocupantes por vivienda
+    "MedInc",      # median block income (tens of thousands of USD)
+    "HouseAge",    # median age of the houses
+    "AveRooms",    # rooms per dwelling
+    "AveBedrms",   # bedrooms per dwelling
+    "Population",  # block population
+    "AveOccup",    # occupants per dwelling
     "Latitude",
     "Longitude",
 ]
-TARGET = "MedHouseVal"  # valor mediano en cientos de miles de USD
+TARGET = "MedHouseVal"  # median value in hundreds of thousands of USD
 RANDOM_STATE = 42
 
 
 def load_dataset() -> pd.DataFrame:
-    """Descarga California Housing la primera vez y luego reutiliza el CSV."""
+    """Download California Housing on first run, then reuse the local CSV."""
     csv_path = DATA_DIR / "california_housing.csv"
     if not csv_path.exists():
         frame = fetch_california_housing(as_frame=True).frame
@@ -51,10 +51,10 @@ def load_dataset() -> pd.DataFrame:
 
 
 def build_models() -> dict:
-    # Los modelos de arbol son invariantes a la escala, asi que solo la
-    # regresion lineal necesita StandardScaler.
+    # Tree-based models are scale invariant, so only linear regression needs
+    # a StandardScaler in front of it.
     return {
-        "Regresión lineal": Pipeline(
+        "Linear regression": Pipeline(
             [("scaler", StandardScaler()), ("model", LinearRegression())]
         ),
         "Random Forest": RandomForestRegressor(
@@ -100,18 +100,18 @@ def main() -> None:
     )
     print(f"train={len(x_train)}  val={len(x_val)}  test={len(x_test)}\n")
 
-    # --- 1. Eleccion del modelo usando SOLO validacion -------------------
+    # --- 1. Model selection using ONLY the validation split --------------
     rows, fitted = [], {}
     for name, estimator in build_models().items():
         estimator.fit(x_train, y_train)
         fitted[name] = estimator
-        rows.append({"modelo": name, **score(y_val, estimator.predict(x_val))})
-        print(f"  entrenado: {name}")
+        rows.append({"model": name, **score(y_val, estimator.predict(x_val))})
+        print(f"  trained: {name}")
 
     validation = pd.DataFrame(rows).sort_values("RMSE").reset_index(drop=True)
-    best_name = validation.iloc[0]["modelo"]
+    best_name = validation.iloc[0]["model"]
 
-    # --- 2. Estabilidad: R2 con validacion cruzada sobre train+val -------
+    # --- 2. Stability: cross-validated R2 over train+val ------------------
     x_dev = pd.concat([x_train, x_val])
     y_dev = pd.concat([y_train, y_val])
     folds = KFold(n_splits=5, shuffle=True, random_state=RANDOM_STATE)
@@ -120,16 +120,16 @@ def main() -> None:
         cv = cross_val_score(estimator, x_dev, y_dev, cv=folds, scoring="r2", n_jobs=1)
         cv_scores[name] = (cv.mean(), cv.std())
 
-    # --- 3. Medicion final del ganador, una sola vez, sobre test ---------
+    # --- 3. Final measurement of the winner, once, on test ----------------
     best = fitted[best_name]
     test_score = score(y_test, best.predict(x_test))
 
     metrics = validation.copy()
-    metrics["R2_cv_media"] = metrics["modelo"].map(lambda n: cv_scores[n][0])
-    metrics["R2_cv_desv"] = metrics["modelo"].map(lambda n: cv_scores[n][1])
-    metrics["particion"] = "validación"
+    metrics["R2_cv_mean"] = metrics["model"].map(lambda n: cv_scores[n][0])
+    metrics["R2_cv_std"] = metrics["model"].map(lambda n: cv_scores[n][1])
+    metrics["split"] = "validation"
     metrics = pd.concat(
-        [metrics, pd.DataFrame([{"modelo": best_name, **test_score, "particion": "test (final)"}])],
+        [metrics, pd.DataFrame([{"model": best_name, **test_score, "split": "test (final)"}])],
         ignore_index=True,
     )
     metrics.to_csv(MODEL_DIR / "metrics.csv", index=False)
@@ -148,15 +148,15 @@ def main() -> None:
         MODEL_DIR / "housing_model.joblib",
     )
 
-    print("\n=== Validación (para elegir modelo) ===")
+    print("\n=== Validation (used to pick the model) ===")
     print(validation.to_string(index=False, float_format=lambda v: f"{v:.4f}"))
-    print("\n=== R² con validación cruzada 5-fold ===")
+    print("\n=== R2 with 5-fold cross-validation ===")
     for name, (mean, std) in cv_scores.items():
         print(f"  {name:18s} {mean:.3f} +/- {std:.3f}")
-    print(f"\n=== Test final — {best_name} ===")
-    print(f"  MAE  {test_score['MAE']:.4f}  (cientos de miles de USD)")
+    print(f"\n=== Final test - {best_name} ===")
+    print(f"  MAE  {test_score['MAE']:.4f}  (hundreds of thousands of USD)")
     print(f"  RMSE {test_score['RMSE']:.4f}")
-    print(f"  R²   {test_score['R2']:.4f}")
+    print(f"  R2   {test_score['R2']:.4f}")
 
 
 if __name__ == "__main__":

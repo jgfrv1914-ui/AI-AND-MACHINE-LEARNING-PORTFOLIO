@@ -1,18 +1,18 @@
-# Datasets completos: se descargan solos con train_model.py
-01_prediccion_viviendas/data/california_housing.csv
-03_deteccion_fraude/data/transactions.csv
-03_deteccion_fraude/data/creditcardfraud.zip
+# Full datasets: train_model.py downloads them on first run
+01_housing_price_prediction/data/california_housing.csv
+03_fraud_detection/data/transactions.csv
+03_fraud_detection/data/creditcardfraud.zip
 
-# NO se ignoran (los necesitan las demos desplegadas):
-#   */models/*.joblib          modelos entrenados
-#   */models/*.csv             métricas
-#   03_deteccion_fraude/data/muestra_demo.csv
+# NOT ignored (the deployed demos need them):
+#   */models/*.joblib             trained models
+#   */models/*.csv                metrics
+#   03_fraud_detection/data/demo_sample.csv
 
-# Salidas de render y dependencias de Node (no son parte del portafolio)
+# Render outputs and Node dependencies (not part of the portfolio)
 output/
 node_modules/
 
-# Copias de seguridad de assets
+# Asset backups
 assets/_backup/
 
 # Python
@@ -22,6 +22,6 @@ __pycache__/
 venv/
 .ipynb_checkpoints/
 
-# Sistema
+# System
 .DS_Store
 Thumbs.db
