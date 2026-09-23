@@ -18,6 +18,7 @@ const CONFIG = {
 const TEXTS = {
   es: {
     nav: ["Proyectos", "Metodología", "Certificaciones", "Sobre mí", "Hablemos"],
+    copied: 'Copiado',
     demo: 'Abrir demo <span aria-hidden="true">↗</span>',
     local: 'Ejecutar en local <span aria-hidden="true">↗</span>',
     code: 'Ver código <span aria-hidden="true">↗</span>',
@@ -66,6 +67,7 @@ const TEXTS = {
       "[data-project='text'] .art-caption": "20 Newsgroups &middot; F1 macro (20 clases)",
       "[data-project='fraud'] .art-caption": "Credit Card Fraud &middot; 0,17 % positivos",
       "[data-project='fraud'] .fraud-stat small": "precisión en test",
+      ".contact-copy": "Copiar",
       ".footer-linkedin": "LinkedIn ↗",
       ".footer a:not(.footer-linkedin)": "Volver arriba ↑",
     },
@@ -83,6 +85,7 @@ const TEXTS = {
 
   en: {
     nav: ["Projects", "Methodology", "Certifications", "About me", "Let’s talk"],
+    copied: 'Copied',
     demo: 'Open demo <span aria-hidden="true">↗</span>',
     local: 'Run locally <span aria-hidden="true">↗</span>',
     code: 'View code <span aria-hidden="true">↗</span>',
@@ -131,6 +134,7 @@ const TEXTS = {
       "[data-project='text'] .art-caption": "20 Newsgroups &middot; macro F1 (20 classes)",
       "[data-project='fraud'] .art-caption": "Credit Card Fraud &middot; 0.17 % positives",
       "[data-project='fraud'] .fraud-stat small": "test precision",
+      ".contact-copy": "Copy",
       ".footer-linkedin": "LinkedIn ↗",
       ".footer a:not(.footer-linkedin)": "Back to top ↑",
     },
@@ -172,6 +176,10 @@ function renderMetrics(t) {
   });
 }
 
+// Labels for the copy button in the active language; setLanguage() keeps
+// them in sync, so this must be initialised before the first call.
+let copyLabels = { idle: "Copy", done: "Copied" };
+
 /* --- Language switching ---------------------------------------------- */
 function setLanguage(language) {
   const t = TEXTS[language] || TEXTS.en;
@@ -198,6 +206,7 @@ function setLanguage(language) {
 
   renderMetrics(t);
   renderLinks(t);
+  copyLabels = { idle: t.blocks[".contact-copy"], done: t.copied };
 
   document.documentElement.lang = language;
   try {
@@ -224,6 +233,41 @@ try {
   /* localStorage unavailable */
 }
 setLanguage(saved);
+
+/* --- Copy the contact address ----------------------------------------
+   mailto: does nothing on a machine with no mail client configured, so the
+   address is also offered as one-click copy. The execCommand branch covers
+   browsers that block the async clipboard API outside a secure context. */
+document.querySelectorAll(".contact-copy").forEach((button) => {
+  button.addEventListener("click", async () => {
+    const value = button.dataset.copy;
+    let ok = true;
+    try {
+      await navigator.clipboard.writeText(value);
+    } catch (e) {
+      const field = document.createElement("textarea");
+      field.value = value;
+      field.setAttribute("readonly", "");
+      field.style.position = "fixed";
+      field.style.opacity = "0";
+      document.body.appendChild(field);
+      field.select();
+      try {
+        ok = document.execCommand("copy");
+      } catch (err) {
+        ok = false;
+      }
+      field.remove();
+    }
+    if (!ok) return;
+    button.textContent = copyLabels.done;
+    button.classList.add("copied");
+    setTimeout(() => {
+      button.textContent = copyLabels.idle;
+      button.classList.remove("copied");
+    }, 2000);
+  });
+});
 
 /* --- Mobile menu ------------------------------------------------------ */
 const menuToggle = document.querySelector(".menu-toggle");

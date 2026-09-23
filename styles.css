@@ -144,3 +144,13 @@ h1,h2,h3,p,span,a{overflow-wrap:break-word}
   .certs-grid{grid-template-columns:1fr}
   .cert-head{flex-wrap:wrap}
 }
+
+/* === Direct contact address ===
+   The mailto button only opens something when the visitor has a mail client
+   configured, which many machines do not. The address is therefore shown in
+   full and can be copied in one click. */
+.contact-direct{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:22px 0 0}
+.contact-address{font:12px var(--mono);color:var(--ink);letter-spacing:.02em;-webkit-user-select:all;user-select:all}
+.contact-copy{border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:99px;padding:6px 13px;font:10px var(--mono);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:color .2s,border-color .2s}
+.contact-copy:hover{color:var(--ink);border-color:#4d4b70}
+.contact-copy.copied{color:var(--lime);border-color:#5c6b3f}
