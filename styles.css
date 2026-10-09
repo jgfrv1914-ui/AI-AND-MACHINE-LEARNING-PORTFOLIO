@@ -81,6 +81,8 @@ h1,h2,h3,p,span,a{overflow-wrap:break-word}
 .hero-robot{position:relative;min-height:520px;display:grid;place-items:center;isolation:isolate}
 .hero-robot:before{content:"";position:absolute;width:78%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(155,124,255,.22),rgba(98,230,229,.08) 45%,transparent 70%);filter:blur(22px);z-index:-1}
 .hero-robot canvas{position:absolute;inset:0;display:block;width:100%;height:100%}
+.hero-robot .robot-static{position:absolute;inset:0;width:100%;height:100%;max-width:420px;margin:auto}
+.hero-robot.has-3d .robot-static{display:none}
 .hero-robot-tag{position:absolute;left:0;bottom:6px;font:10px var(--mono);color:#77768a;letter-spacing:.08em;text-transform:uppercase}
 
 @media(max-width:800px){

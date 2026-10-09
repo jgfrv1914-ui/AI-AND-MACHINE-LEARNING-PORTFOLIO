@@ -1,13 +1,56 @@
 /* Hero 3D avatar: a procedural robot waving its hand.
    Built from Three.js primitives (no external mesh) so it stays small and uses
    exactly the palette defined in styles.css. */
-import * as THREE from "three";
-import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
-
+// Three.js is loaded with import() instead of a static import, so this file
+// itself always runs. If the CDN is blocked or WebGL is missing, the static
+// SVG inside #hero-robot stays visible instead of an empty box.
 const mount = document.getElementById("hero-robot");
-if (mount) initRobot(mount);
+if (mount) boot(mount);
 
-function initRobot(mount) {
+async function boot(mount) {
+  if (!hasWebGL()) return followStatic(mount);
+  try {
+    const THREE = await import("three");
+    const { RoundedBoxGeometry } = await import("three/addons/geometries/RoundedBoxGeometry.js");
+    initRobot(mount, THREE, RoundedBoxGeometry);
+    mount.classList.add("has-3d");
+  } catch (err) {
+    console.warn("Hero robot: 3D disabled, using static image.", err);
+    followStatic(mount);
+  }
+}
+
+// Static fallback (a PNG rendered from the 3D scene): the figure leans toward the cursor.
+function followStatic(mount) {
+  const img = mount.querySelector(".robot-static");
+  if (!img) return;
+  const pointer = { x: 0, y: 0 };
+  let cur = { x: 0, y: 0 };
+  addEventListener("pointermove", (e) => {
+    pointer.x = (e.clientX / innerWidth) * 2 - 1;
+    pointer.y = (e.clientY / innerHeight) * 2 - 1;
+  }, { passive: true });
+
+  const frame = () => {
+    // Ease toward the cursor so the motion stays smooth.
+    cur.x += (pointer.x - cur.x) * 0.08;
+    cur.y += (pointer.y - cur.y) * 0.08;
+    img.style.transform = `translate(${cur.x * 8}px, ${cur.y * 4}px) rotate(${cur.x * 3}deg)`;
+    requestAnimationFrame(frame);
+  };
+  requestAnimationFrame(frame);
+}
+
+function hasWebGL() {
+  try {
+    const c = document.createElement("canvas");
+    return !!(c.getContext("webgl2") || c.getContext("webgl"));
+  } catch (err) {
+    return false;
+  }
+}
+
+function initRobot(mount, THREE, RoundedBoxGeometry) {
   const VIOLET = 0x9b7cff, CYAN = 0x62e6e5, LIME = 0xd4f07b;
 
   const scene = new THREE.Scene();
