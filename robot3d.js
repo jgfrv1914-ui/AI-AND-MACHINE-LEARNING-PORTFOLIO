@@ -20,11 +20,10 @@ async function boot(mount) {
   }
 }
 
-// Static fallback: the head turns toward the cursor, like the 3D version.
+// Static fallback (a PNG rendered from the 3D scene): the figure leans toward the cursor.
 function followStatic(mount) {
-  const head = mount.querySelector(".robot-head");
-  if (!head) return;
-  head.style.transformOrigin = "200px 125px"; // head centre in viewBox units
+  const img = mount.querySelector(".robot-static");
+  if (!img) return;
   const pointer = { x: 0, y: 0 };
   let cur = { x: 0, y: 0 };
   addEventListener("pointermove", (e) => {
@@ -36,7 +35,7 @@ function followStatic(mount) {
     // Ease toward the cursor so the motion stays smooth.
     cur.x += (pointer.x - cur.x) * 0.08;
     cur.y += (pointer.y - cur.y) * 0.08;
-    head.style.transform = `translate(${cur.x * 8}px, ${cur.y * 4}px) rotate(${cur.x * 6}deg)`;
+    img.style.transform = `translate(${cur.x * 8}px, ${cur.y * 4}px) rotate(${cur.x * 3}deg)`;
     requestAnimationFrame(frame);
   };
   requestAnimationFrame(frame);
