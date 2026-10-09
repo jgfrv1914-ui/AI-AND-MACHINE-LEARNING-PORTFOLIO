@@ -8,7 +8,7 @@ const mount = document.getElementById("hero-robot");
 if (mount) boot(mount);
 
 async function boot(mount) {
-  if (!hasWebGL()) return;
+  if (!hasWebGL()) return followStatic(mount);
   try {
     const THREE = await import("three");
     const { RoundedBoxGeometry } = await import("three/addons/geometries/RoundedBoxGeometry.js");
@@ -16,7 +16,30 @@ async function boot(mount) {
     mount.classList.add("has-3d");
   } catch (err) {
     console.warn("Hero robot: 3D disabled, using static image.", err);
+    followStatic(mount);
   }
+}
+
+// Static fallback: the head turns toward the cursor, like the 3D version.
+function followStatic(mount) {
+  const head = mount.querySelector(".robot-head");
+  if (!head) return;
+  head.style.transformOrigin = "200px 125px"; // head centre in viewBox units
+  const pointer = { x: 0, y: 0 };
+  let cur = { x: 0, y: 0 };
+  addEventListener("pointermove", (e) => {
+    pointer.x = (e.clientX / innerWidth) * 2 - 1;
+    pointer.y = (e.clientY / innerHeight) * 2 - 1;
+  }, { passive: true });
+
+  const frame = () => {
+    // Ease toward the cursor so the motion stays smooth.
+    cur.x += (pointer.x - cur.x) * 0.08;
+    cur.y += (pointer.y - cur.y) * 0.08;
+    head.style.transform = `translate(${cur.x * 8}px, ${cur.y * 4}px) rotate(${cur.x * 6}deg)`;
+    requestAnimationFrame(frame);
+  };
+  requestAnimationFrame(frame);
 }
 
 function hasWebGL() {
