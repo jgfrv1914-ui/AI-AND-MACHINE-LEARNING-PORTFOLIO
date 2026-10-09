@@ -1,13 +1,34 @@
 /* Hero 3D avatar: a procedural robot waving its hand.
    Built from Three.js primitives (no external mesh) so it stays small and uses
    exactly the palette defined in styles.css. */
-import * as THREE from "three";
-import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
-
+// Three.js is loaded with import() instead of a static import, so this file
+// itself always runs. If the CDN is blocked or WebGL is missing, the static
+// SVG inside #hero-robot stays visible instead of an empty box.
 const mount = document.getElementById("hero-robot");
-if (mount) initRobot(mount);
+if (mount) boot(mount);
 
-function initRobot(mount) {
+async function boot(mount) {
+  if (!hasWebGL()) return;
+  try {
+    const THREE = await import("three");
+    const { RoundedBoxGeometry } = await import("three/addons/geometries/RoundedBoxGeometry.js");
+    initRobot(mount, THREE, RoundedBoxGeometry);
+    mount.classList.add("has-3d");
+  } catch (err) {
+    console.warn("Hero robot: 3D disabled, using static image.", err);
+  }
+}
+
+function hasWebGL() {
+  try {
+    const c = document.createElement("canvas");
+    return !!(c.getContext("webgl2") || c.getContext("webgl"));
+  } catch (err) {
+    return false;
+  }
+}
+
+function initRobot(mount, THREE, RoundedBoxGeometry) {
   const VIOLET = 0x9b7cff, CYAN = 0x62e6e5, LIME = 0xd4f07b;
 
   const scene = new THREE.Scene();
