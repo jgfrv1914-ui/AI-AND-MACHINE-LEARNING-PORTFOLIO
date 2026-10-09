@@ -299,3 +299,20 @@ const observer = new IntersectionObserver(
 );
 
 document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+
+/* --- Background video autoplay (iOS Safari) ----------------------------
+   iOS only autoplays when the element is muted at play() time, and may
+   still refuse; retry on the first touch and when the tab becomes visible. */
+(() => {
+  const video = document.querySelector(".bg-video");
+  if (!video) return;
+  video.muted = true;
+  video.defaultMuted = true;
+  video.setAttribute("muted", "");
+  const tryPlay = () => { const p = video.play(); if (p && p.catch) p.catch(() => {}); };
+  tryPlay();
+  video.addEventListener("loadeddata", tryPlay, { once: true });
+  ["touchstart", "pointerdown", "scroll"].forEach((ev) =>
+    addEventListener(ev, tryPlay, { once: true, passive: true }));
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) tryPlay(); });
+})();
