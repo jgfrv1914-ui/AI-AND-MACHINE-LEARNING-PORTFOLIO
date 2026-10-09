@@ -14,6 +14,8 @@ async function boot(mount) {
     const { RoundedBoxGeometry } = await import("three/addons/geometries/RoundedBoxGeometry.js");
     initRobot(mount, THREE, RoundedBoxGeometry);
     mount.classList.add("has-3d");
+    const fallback = mount.querySelector(".robot-static");
+    if (fallback) fallback.remove();
   } catch (err) {
     console.warn("Hero robot: 3D disabled, using static image.", err);
     followStatic(mount);
